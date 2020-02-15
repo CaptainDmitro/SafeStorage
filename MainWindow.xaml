@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeStorage"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="SafeStorage" Height="400" Width="400" ResizeMode="CanResizeWithGrip">
+    <Grid x:Name="Grid_Control">
+        <Button x:Name="Button_Sign_In" Content="Sign In" HorizontalAlignment="Left" Margin="150,134,0,0" VerticalAlignment="Top" Width="75" Click="Button_Sign_In_Click"/>
+        <Button x:Name="Button_Sign_Up" Content="Sign Up" HorizontalAlignment="Left" Margin="150,188,0,0" VerticalAlignment="Top" Width="75"/>
+        <PasswordBox x:Name="PasswordBox_Password" HorizontalAlignment="Left" Margin="150,95,0,0" VerticalAlignment="Top" Width="75" Password="2"/>
+        <TextBox x:Name="TextBox_Username" HorizontalAlignment="Left" Height="23" Margin="150,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Text="testu"/>
+
     </Grid>
 </Window>
