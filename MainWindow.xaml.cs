@@ -27,24 +27,6 @@ namespace SafeStorage
             InitializeComponent();
         }
 
-        private void Fun()
-        {
-            var connectionInfo = new ConnectionInfo(Settings.HOST,
-                                        "testu",
-                                        new PasswordAuthenticationMethod("testu", "2"));
-            using (var client = new SftpClient(connectionInfo))
-            {
-                client.Connect();
-                client.ChangeDirectory("/upload");
-                string fileName = "C:\\Users\\Dmitry\\Downloads\\test.txt";
-                using (var uplfileStream = System.IO.File.OpenRead(fileName))
-                {
-                    client.UploadFile(uplfileStream, fileName, true);
-                }
-                client.Disconnect();
-            }
-        }
-
         private void Button_Sign_In_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -55,7 +37,7 @@ namespace SafeStorage
                 var client = new SftpClient(connectionInfo);
                 client.Connect();
                 Hide();
-                new ControlWindow(client, CryptoSystem.GenerateFirstKey(PasswordBox_Password.Password).Substring(0, 8)).Show();
+                new ControlWindow(client, CryptoSystem.GenerateFirstKey(Encoding.UTF8.GetBytes(PasswordBox_Password.Password))).Show();
             }
             catch (Renci.SshNet.Common.SshAuthenticationException)
             {

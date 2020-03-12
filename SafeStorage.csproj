@@ -67,6 +67,7 @@
       <DependentUpon>ControlWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CryptoSystem.cs" />
+    <Compile Include="Magma.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="ControlWindow.xaml">
       <SubType>Designer</SubType>

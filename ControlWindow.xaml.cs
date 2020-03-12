@@ -24,9 +24,9 @@ namespace SafeStorage
     public partial class ControlWindow : Window
     {
         private SftpClient client;
-        private string key;
+        private byte[] key;
         private CryptoSystem cs;
-        public ControlWindow(SftpClient client, string key)
+        public ControlWindow(SftpClient client, byte[] key)
         {
             InitializeComponent();
 

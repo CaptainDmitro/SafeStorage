@@ -10,82 +10,65 @@ namespace SafeStorage
 {
     class CryptoSystem
     {
-        public void Encrypt(string inputFile, string password)
+        public void Encrypt(string inputFile, byte[] password)
         {
             string outputFile = inputFile + Settings.ENCRYPTION_EXTENSION;
-            UnicodeEncoding UE = new UnicodeEncoding();
-            byte[] key = UE.GetBytes(password);
+            byte[] key = password;
 
-            string cryptFile = outputFile;
-            FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+            Magma magma = new Magma();
+            magma.SetKey(key);
 
-            RijndaelManaged RMCrypto = new RijndaelManaged();
+            using (FileStream fs = File.OpenRead(inputFile))
+            {
+                using (FileStream fw = File.OpenWrite(outputFile))
+                {
+                    byte[] buf = new byte[8];
+                    while (fs.Read(buf, 0, buf.Length) > 0)
+                    {
+                        byte[] encrypted = magma.Encrypt(buf, true);
+                        fw.Write(encrypted, 0, encrypted.Length);
+                    }
+                }
 
-            CryptoStream cs = new CryptoStream(fsCrypt,
-                RMCrypto.CreateEncryptor(key, key),
-                CryptoStreamMode.Write);
-
-            FileStream fsIn = new FileStream(inputFile, FileMode.Open);
-
-            int data;
-            while ((data = fsIn.ReadByte()) != -1)
-                cs.WriteByte((byte)data);
-
-
-            fsIn.Close();
-            cs.Close();
-            fsCrypt.Close();
+            }
         }
 
-        public void Decrypt(string inputFile, string password)
+        public void Decrypt(string inputFile, byte[] password)
         {
-            UnicodeEncoding UE = new UnicodeEncoding();
-            byte[] key = UE.GetBytes(password);
+            byte[] key = password;
             string outputFile = Path.ChangeExtension(inputFile, null);
 
-            FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
+            Magma magma = new Magma();
+            magma.SetKey(key);
 
-            RijndaelManaged RMCrypto = new RijndaelManaged();
-
-            CryptoStream cs = new CryptoStream(fsCrypt,
-                RMCrypto.CreateDecryptor(key, key),
-                CryptoStreamMode.Read);
-
-            FileStream fsOut = new FileStream(outputFile, FileMode.Create);
-
-            int data;
-            while ((data = cs.ReadByte()) != -1)
-                fsOut.WriteByte((byte)data);
-
-            fsOut.Close();
-            cs.Close();
-            fsCrypt.Close();
+            using (FileStream fs = File.OpenRead(inputFile))
+            {
+                using (FileStream fw = File.OpenWrite(outputFile))
+                {
+                    byte[] buf = new byte[8];
+                    while (fs.Read(buf, 0, buf.Length) > 0)
+                    {
+                        buf = magma.Encrypt(buf, false);
+                        fw.Write(buf, 0, buf.Length);
+                    }
+                }
+            }
         }
 
-        public static string GenerateFirstKey(string key)
+        public static byte[] GenerateFirstKey(byte[] key)
         {
-            string hash = null;
-
-            using (MD5 md5Hash = MD5.Create())
-            {
-                hash = GetMd5Hash(md5Hash, key);
-            }
+            byte[] hash = GetSHA256(key);
 
             return hash;
         }
 
-        private static string GetMd5Hash(MD5 md5Hash, string input)
+        private static byte[] GetSHA256(byte[] str)
         {
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            StringBuilder sBuilder = new StringBuilder();
-
-            for (int i = 0; i < data.Length; i++)
+            using (SHA256 mySHA256 = SHA256.Create())
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                byte[] hash = mySHA256.ComputeHash(Encoding.UTF8.GetBytes("qweasd"));
+                return hash;
             }
-
-            return sBuilder.ToString();
         }
     }
 }
