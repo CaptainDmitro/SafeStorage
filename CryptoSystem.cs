@@ -18,11 +18,11 @@ namespace SafeStorage
             Magma magma = new Magma();
             magma.SetKey(key);
 
-            using (FileStream fs = File.OpenRead(inputFile))
+            /*using (FileStream fs = File.OpenRead(inputFile))
             {
                 using (FileStream fw = File.OpenWrite(outputFile))
                 {
-                    byte[] buf = new byte[8];
+                    byte[] buf = new byte[magma.BlockSize];
                     while (fs.Read(buf, 0, buf.Length) > 0)
                     {
                         byte[] encrypted = magma.Encrypt(buf, true);
@@ -30,6 +30,31 @@ namespace SafeStorage
                     }
                 }
 
+            }*/
+
+            using (FileStream fs = new FileStream(inputFile, FileMode.Open))
+            {
+                using (FileStream fw = new FileStream(outputFile, FileMode.Create))
+                {
+                    byte[] buf = new byte[8];
+                    long pos = 0;
+
+                    while (fs.Read(buf, 0, 8) == 8)
+                    {
+                        byte[] encrypted = magma.Encrypt(buf, true);
+                        fw.Write(encrypted, 0, encrypted.Length);
+                        pos = fs.Position;
+                    }
+
+                    if (fs.Length % 8 != 0)
+                    {
+                        byte[] buf2 = new byte[8];
+                        Array.Copy(buf, buf2, fs.Length % 8);
+                        byte[] encrypted = magma.Encrypt(buf2, true);
+                        fw.Write(encrypted, 0, encrypted.Length);
+
+                    }
+                }
             }
         }
 
@@ -41,15 +66,39 @@ namespace SafeStorage
             Magma magma = new Magma();
             magma.SetKey(key);
 
-            using (FileStream fs = File.OpenRead(inputFile))
+            /*using (FileStream fs = File.OpenRead(inputFile))
             {
                 using (FileStream fw = File.OpenWrite(outputFile))
                 {
-                    byte[] buf = new byte[8];
+                    byte[] buf = new byte[magma.BlockSize];
                     while (fs.Read(buf, 0, buf.Length) > 0)
                     {
                         buf = magma.Encrypt(buf, false);
                         fw.Write(buf, 0, buf.Length);
+                    }
+                }
+            }*/
+
+            using (FileStream fs = new FileStream(inputFile, FileMode.Open))
+            {
+                using (FileStream fw = new FileStream(outputFile, FileMode.Create))
+                {
+                    byte[] buf = new byte[8];
+
+                    while (fs.Read(buf, 0, 8) > 0)
+                    {
+                        byte[] encrypted = magma.Encrypt(buf, false);
+
+                        if (fs.Position == fs.Length)
+                        {
+                            int zeros = encrypted.Count(e => e == 0);
+                            Console.WriteLine(zeros);
+                            fw.Write(encrypted, 0, 8 - zeros);
+                        }
+                        else
+                        {
+                            fw.Write(encrypted, 0, encrypted.Length);
+                        }
                     }
                 }
             }
@@ -57,16 +106,9 @@ namespace SafeStorage
 
         public static byte[] GenerateFirstKey(byte[] key)
         {
-            byte[] hash = GetSHA256(key);
-
-            return hash;
-        }
-
-        private static byte[] GetSHA256(byte[] str)
-        {
             using (SHA256 mySHA256 = SHA256.Create())
             {
-                byte[] hash = mySHA256.ComputeHash(Encoding.UTF8.GetBytes("qweasd"));
+                byte[] hash = mySHA256.ComputeHash(key);
                 return hash;
             }
         }
