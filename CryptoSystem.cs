@@ -18,20 +18,6 @@ namespace SafeStorage
             Magma magma = new Magma();
             magma.SetKey(key);
 
-            /*using (FileStream fs = File.OpenRead(inputFile))
-            {
-                using (FileStream fw = File.OpenWrite(outputFile))
-                {
-                    byte[] buf = new byte[magma.BlockSize];
-                    while (fs.Read(buf, 0, buf.Length) > 0)
-                    {
-                        byte[] encrypted = magma.Encrypt(buf, true);
-                        fw.Write(encrypted, 0, encrypted.Length);
-                    }
-                }
-
-            }*/
-
             using (FileStream fs = new FileStream(inputFile, FileMode.Open))
             {
                 using (FileStream fw = new FileStream(outputFile, FileMode.Create))
@@ -66,19 +52,6 @@ namespace SafeStorage
             Magma magma = new Magma();
             magma.SetKey(key);
 
-            /*using (FileStream fs = File.OpenRead(inputFile))
-            {
-                using (FileStream fw = File.OpenWrite(outputFile))
-                {
-                    byte[] buf = new byte[magma.BlockSize];
-                    while (fs.Read(buf, 0, buf.Length) > 0)
-                    {
-                        buf = magma.Encrypt(buf, false);
-                        fw.Write(buf, 0, buf.Length);
-                    }
-                }
-            }*/
-
             using (FileStream fs = new FileStream(inputFile, FileMode.Open))
             {
                 using (FileStream fw = new FileStream(outputFile, FileMode.Create))
@@ -92,7 +65,6 @@ namespace SafeStorage
                         if (fs.Position == fs.Length)
                         {
                             int zeros = encrypted.Count(e => e == 0);
-                            Console.WriteLine(zeros);
                             fw.Write(encrypted, 0, 8 - zeros);
                         }
                         else
@@ -104,7 +76,7 @@ namespace SafeStorage
             }
         }
 
-        public static byte[] GenerateFirstKey(byte[] key)
+        public static byte[] GenerateKey(byte[] key)
         {
             using (SHA256 mySHA256 = SHA256.Create())
             {

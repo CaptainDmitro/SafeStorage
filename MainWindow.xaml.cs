@@ -37,7 +37,7 @@ namespace SafeStorage
                 var client = new SftpClient(connectionInfo);
                 client.Connect();
                 Hide();
-                new ControlWindow(client, CryptoSystem.GenerateFirstKey(Encoding.UTF8.GetBytes(PasswordBox_Password.Password))).Show();
+                new ControlWindow(client, CryptoSystem.GenerateKey(Encoding.UTF8.GetBytes(PasswordBox_Password.Password))).Show();
             }
             catch (Renci.SshNet.Common.SshAuthenticationException)
             {
