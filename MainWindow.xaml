@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeStorage"
         mc:Ignorable="d"
-        Title="SafeStorage" Height="400" Width="400" ResizeMode="CanResizeWithGrip">
+        Title="SafeStorage" Height="292.5" Width="400" ResizeMode="CanResizeWithGrip">
     <Grid x:Name="Grid_Control">
-        <Button x:Name="Button_Sign_In" Content="Sign In" HorizontalAlignment="Left" Margin="150,134,0,0" VerticalAlignment="Top" Width="75" Click="Button_Sign_In_Click"/>
-        <Button x:Name="Button_Sign_Up" Content="Sign Up" HorizontalAlignment="Left" Margin="150,188,0,0" VerticalAlignment="Top" Width="75"/>
-        <PasswordBox x:Name="PasswordBox_Password" HorizontalAlignment="Left" Margin="150,95,0,0" VerticalAlignment="Top" Width="75" Password="2"/>
-        <TextBox x:Name="TextBox_Username" HorizontalAlignment="Left" Height="23" Margin="150,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Text="testu"/>
+        <Button x:Name="Button_Sign_In" Content="Войти" HorizontalAlignment="Left" Margin="128,145,0,0" VerticalAlignment="Top" Width="142" Click="Button_Sign_In_Click" Height="38" FontSize="16"/>
+        <Button x:Name="Button_Sign_Up" Content="Регистрация" HorizontalAlignment="Left" Margin="128,197,0,0" VerticalAlignment="Top" Width="142" Height="38" FontSize="16" Click="Button_Sign_Up_Click"/>
+        <PasswordBox x:Name="PasswordBox_Password" HorizontalAlignment="Left" Margin="150,89,0,0" VerticalAlignment="Top" Width="160" Height="36" FontSize="20"/>
+        <Label Content="Логин:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,30,0,0" FontSize="20"/>
+        <Label Content="Пароль:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="67,85,0,0" FontSize="20"/>
+        <TextBox x:Name="TextBox_Username" HorizontalAlignment="Left" Height="36" Margin="150,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" FontSize="20"/>
 
     </Grid>
 </Window>

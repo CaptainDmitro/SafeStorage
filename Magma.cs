@@ -8,36 +8,11 @@ namespace SafeStorage
 {
     public class Magma
     {
-        private const int BLOCK_SIZE = 8;
-        private const int KEY_LENGTH = 32;
-
-        public int BlockSize
-        {
-            get
-            {
-                return BLOCK_SIZE;
-            }
-        }
+        private uint[] _subKeys;
 
         public void SetKey(byte[] key)
         {
             _subKeys = GetSubKeys(key);
-        }
-
-        public int KeyLength
-        {
-            get
-            {
-                return KEY_LENGTH;
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return "GOST/Magma (256-Bit Key)";
-            }
         }
 
         public byte[] UuidBytes
@@ -48,17 +23,8 @@ namespace SafeStorage
             }
         }
 
-        /*
-         * Magma cipher implementation
-         */
-
-        /// <summary>
-        /// Substitution Table
-        /// id-tc26-gost-28147-param-Z
-        /// </summary>
         private readonly byte[][] _sBox =
         {
-            //            0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
             new byte[] { 0x0C, 0x04, 0x06, 0x02, 0x0A, 0x05, 0x0B, 0x09, 0x0E, 0x08, 0x0D, 0x07, 0x00, 0x03, 0x0F, 0x01 },
             new byte[] { 0x06, 0x08, 0x02, 0x03, 0x09, 0x0A, 0x05, 0x0C, 0x01, 0x0E, 0x04, 0x07, 0x0B, 0x0D, 0x00, 0x0F },
             new byte[] { 0x0B, 0x03, 0x05, 0x08, 0x02, 0x0F, 0x0A, 0x0D, 0x0E, 0x01, 0x07, 0x04, 0x0C, 0x09, 0x06, 0x00 },
@@ -68,8 +34,6 @@ namespace SafeStorage
             new byte[] { 0x08, 0x0E, 0x02, 0x05, 0x06, 0x09, 0x01, 0x0C, 0x0F, 0x04, 0x0B, 0x00, 0x0D, 0x0A, 0x03, 0x07 },
             new byte[] { 0x01, 0x07, 0x0E, 0x0D, 0x00, 0x05, 0x08, 0x03, 0x04, 0x0F, 0x0A, 0x06, 0x09, 0x0C, 0x0B, 0x02 }
         };
-
-        private uint[] _subKeys;
 
         public byte[] Encrypt(byte[] data, bool encrypt)
         {

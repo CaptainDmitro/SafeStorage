@@ -9,6 +9,10 @@ namespace SafeStorage
     static class Settings
     {
         public static readonly string HOST = "192.168.56.56";
+        public static readonly string NAME = "dmitry";
+        public static readonly string KEY = "1";
+
         public static readonly string ENCRYPTION_EXTENSION = ".cyph";
+        public static readonly string HOME_DIR = "/upload";
     }
 }

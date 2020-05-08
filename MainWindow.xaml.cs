@@ -41,9 +41,13 @@ namespace SafeStorage
             }
             catch (Renci.SshNet.Common.SshAuthenticationException)
             {
-                MessageBox.Show("Wrong login or password!", "Authentication error");
+                MessageBox.Show(Strings.ERR_LOGIN, Strings.ERROR_MSG);
             }
         }
 
+        private void Button_Sign_Up_Click(object sender, RoutedEventArgs e)
+        {
+            new RegistrationWindow().Show();
+        }
     }
 }

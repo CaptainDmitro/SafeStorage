@@ -43,7 +43,7 @@ namespace SafeStorage
 
         private void Init()
         {
-            client.ChangeDirectory("/upload");
+            client.ChangeDirectory(Settings.HOME_DIR);
             UpdateFileList();
         }
 
@@ -76,7 +76,7 @@ namespace SafeStorage
             } 
             catch (NullReferenceException)
             {
-                MessageBox.Show("Select a file from the list to download", "No file selected");
+                MessageBox.Show(Strings.NO_FILE_SELECTED_DOWNLOAD, Strings.NO_FILE_SELECTED);
             }
 
             UpdateFileList();
@@ -116,7 +116,7 @@ namespace SafeStorage
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Select a file from the list to delete", "No file selected");
+                MessageBox.Show(Strings.NO_FILE_SELECTED_DELETE, Strings.NO_FILE_SELECTED);
             }
 
             UpdateFileList();
