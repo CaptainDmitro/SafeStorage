@@ -1,0 +1,31 @@
+﻿<Window x:Class="SafeStorage.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeStorage"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="SafeStorage" Height="420" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="#FF681487">
+    <Grid x:Name="Grid_Control">
+        <StackPanel Margin="45,20">
+            <Image Source="C:\Users\Dmitry\source\repos\SafeStorage\Assets\logo.png" Width="120" Height="120" Margin="120,-25"/>
+            <Border Background="White" Margin="10 30" CornerRadius="5" Height="260">
+                <StackPanel Margin="10">
+                    <!---
+                    <ComboBox Margin="15" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Region">
+                        <ComboBoxItem Content="RU"/>
+                    </ComboBox>
+                    -->
+                    <TextBox x:Name="TextBox_Username" Margin="15" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Логин"/>
+                    <PasswordBox x:Name="PasswordBox_Password" Margin="15" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Пароль"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button x:Name="Button_Sign_In" Click="Button_Sign_In_Click" Margin="15 50" Content="Войти"/>
+                        <Button x:Name="Button_Sign_Up" Click="Button_Sign_Up_Click" Margin="15 50" Content="Регистрация"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+    </Grid>
+</Window>

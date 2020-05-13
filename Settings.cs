@@ -14,5 +14,6 @@ namespace SafeStorage
 
         public static readonly string ENCRYPTION_EXTENSION = ".cyph";
         public static readonly string HOME_DIR = "/upload";
+        public static readonly string RUN_REG_SCRIPT = "sudo sh addUser.sh";
     }
 }

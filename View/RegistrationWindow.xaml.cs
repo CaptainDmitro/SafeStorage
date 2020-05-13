@@ -30,15 +30,15 @@ namespace SafeStorage
         {
             if (TextBox_Username.Text.Length == 0)
             {
-                MessageBox.Show(Strings.LOGIN_IS_EMPTY, Strings.ERROR_MSG);
+                MessageBox.Show(Strings.LOGIN_IS_EMPTY, Strings.ERR_MSG);
             }
             else if(PasswordBox_Password.Password.Length == 0 || PasswordBox_Password_Repeat.Password.Length == 0)
             {
-                MessageBox.Show(Strings.PSW_IS_EMPTY, Strings.ERROR_MSG);
+                MessageBox.Show(Strings.PSW_IS_EMPTY, Strings.ERR_MSG);
             }
             else if (!PasswordBox_Password.Password.Equals(PasswordBox_Password_Repeat.Password))
             {
-                MessageBox.Show(Strings.PSW_NOT_EQUAL, Strings.ERROR_MSG);
+                MessageBox.Show(Strings.PSW_NOT_EQUAL, Strings.ERR_MSG);
             }
             else
             {
