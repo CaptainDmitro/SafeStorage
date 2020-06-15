@@ -22,5 +22,7 @@ namespace SafeStorage
         public static readonly string LOGIN_IS_EMPTY = "Введите логин";
         public static readonly string REG_SUCCESS = "Регистрация прошла успешно";
         public static readonly string NOTIFICATION = "Уведомление";
+
+        public static readonly string BACKUP_SERVER_SUCCESS = "Резервная копия на сервере успешно создана";
     }
 }

@@ -86,6 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\BackupWindow.xaml.cs">
+      <DependentUpon>BackupWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ControlWindow.xaml.cs">
       <DependentUpon>ControlWindow.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Strings.cs" />
+    <Page Include="View\BackupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ControlWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

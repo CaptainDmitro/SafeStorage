@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
+using SafeStorage.View;
 
 namespace SafeStorage
 {
@@ -49,7 +50,7 @@ namespace SafeStorage
 
         private void UpdateFileList()
         {
-            var fileList = client.ListDirectory(client.WorkingDirectory).Select(s => s.Name).OrderBy(s => s).Skip(2).ToList();
+            var fileList = client.ListDirectory(client.WorkingDirectory).Select(s => s.Name).OrderBy(s => s).Skip(3).ToList();
             ListBox_Files.ItemsSource = fileList;
         }
 
@@ -118,6 +119,13 @@ namespace SafeStorage
             {
                 MessageBox.Show(Strings.NO_FILE_SELECTED_DELETE, Strings.NO_FILE_SELECTED);
             }
+
+            UpdateFileList();
+        }
+
+        private void Button_BackupWindow_Click(object sender, RoutedEventArgs e)
+        {
+            new BackupWindow(client).Show();
 
             UpdateFileList();
         }

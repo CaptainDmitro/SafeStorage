@@ -27,7 +27,7 @@ namespace SafeStorage
 
                     while (fs.Read(buf, 0, 8) == 8)
                     {
-                        byte[] encrypted = magma.Encrypt(buf, true);
+                        byte[] encrypted = magma.Encrypt(buf);
                         fw.Write(encrypted, 0, encrypted.Length);
                         pos = fs.Position;
                     }
@@ -36,7 +36,7 @@ namespace SafeStorage
                     {
                         byte[] buf2 = new byte[8];
                         Array.Copy(buf, buf2, fs.Length % 8);
-                        byte[] encrypted = magma.Encrypt(buf2, true);
+                        byte[] encrypted = magma.Encrypt(buf2);
                         fw.Write(encrypted, 0, encrypted.Length);
 
                     }
@@ -60,7 +60,7 @@ namespace SafeStorage
 
                     while (fs.Read(buf, 0, 8) > 0)
                     {
-                        byte[] encrypted = magma.Encrypt(buf, false);
+                        byte[] encrypted = magma.Decrypt(buf);
 
                         if (fs.Position == fs.Length)
                         {

@@ -8,22 +8,14 @@ namespace SafeStorage
 {
     public class Magma
     {
-        private uint[] _subKeys;
+        private uint[] subKeys;
 
         public void SetKey(byte[] key)
         {
-            _subKeys = GetSubKeys(key);
+            subKeys = GetSubKeys(key);
         }
 
-        public byte[] UuidBytes
-        {
-            get
-            {
-                return new byte[] { 0xe4, 0x5c, 0x8b, 0xb3, 0x08, 0xc0, 0x45, 0x2c, 0x89, 0x6d, 0xd2, 0x1e, 0xfc, 0x4b, 0xa3, 0xd7 };
-            }
-        }
-
-        private readonly byte[][] _sBox =
+        private readonly byte[][] sBox =
         {
             new byte[] { 0x0C, 0x04, 0x06, 0x02, 0x0A, 0x05, 0x0B, 0x09, 0x0E, 0x08, 0x0D, 0x07, 0x00, 0x03, 0x0F, 0x01 },
             new byte[] { 0x06, 0x08, 0x02, 0x03, 0x09, 0x0A, 0x05, 0x0C, 0x01, 0x0E, 0x04, 0x07, 0x0B, 0x0D, 0x00, 0x0F },
@@ -35,7 +27,11 @@ namespace SafeStorage
             new byte[] { 0x01, 0x07, 0x0E, 0x0D, 0x00, 0x05, 0x08, 0x03, 0x04, 0x0F, 0x0A, 0x06, 0x09, 0x0C, 0x0B, 0x02 }
         };
 
-        public byte[] Encrypt(byte[] data, bool encrypt)
+        public byte[] Encrypt(byte[] data) => Proceed(data, true);
+
+        public byte[] Decrypt(byte[] data) => Proceed(data, false);
+
+        private byte[] Proceed(byte[] data, bool encrypt)
         {
             byte[] dataR = new byte[data.Length];
             Array.Copy(data, dataR, data.Length);
@@ -50,13 +46,13 @@ namespace SafeStorage
             {
                 int keyIndex = encrypt ? (i < 24) ? i % 8 : 7 - (i % 8) : (i < 8) ? i % 8 : 7 - (i % 8);
 
-                uint round = a1 ^ funcG(a0, _subKeys[keyIndex]);
+                uint round = a1 ^ funcG(a0, subKeys[keyIndex]);
 
                 a1 = a0;
                 a0 = round;
             }
 
-            a1 = a1 ^ funcG(a0, _subKeys[0]);
+            a1 = a1 ^ funcG(a0, subKeys[0]);
 
             Array.Copy(BitConverter.GetBytes(a0), 0, result, 0, 4);
             Array.Copy(BitConverter.GetBytes(a1), 0, result, 4, 4);
@@ -76,14 +72,14 @@ namespace SafeStorage
         {
             uint res = 0;
 
-            res ^= _sBox[0][a & 0x0000000f];
-            res ^= (uint)(_sBox[1][((a & 0x000000f0) >> 4)] << 4);
-            res ^= (uint)(_sBox[2][((a & 0x00000f00) >> 8)] << 8);
-            res ^= (uint)(_sBox[3][((a & 0x0000f000) >> 12)] << 12);
-            res ^= (uint)(_sBox[4][((a & 0x000f0000) >> 16)] << 16);
-            res ^= (uint)(_sBox[5][((a & 0x00f00000) >> 20)] << 20);
-            res ^= (uint)(_sBox[6][((a & 0x0f000000) >> 24)] << 24);
-            res ^= (uint)(_sBox[7][((a & 0xf0000000) >> 28)] << 28);
+            res ^= sBox[0][a & 0x0000000f];
+            res ^= (uint)(sBox[1][((a & 0x000000f0) >> 4)] << 4);
+            res ^= (uint)(sBox[2][((a & 0x00000f00) >> 8)] << 8);
+            res ^= (uint)(sBox[3][((a & 0x0000f000) >> 12)] << 12);
+            res ^= (uint)(sBox[4][((a & 0x000f0000) >> 16)] << 16);
+            res ^= (uint)(sBox[5][((a & 0x00f00000) >> 20)] << 20);
+            res ^= (uint)(sBox[6][((a & 0x0f000000) >> 24)] << 24);
+            res ^= (uint)(sBox[7][((a & 0xf0000000) >> 28)] << 28);
 
             return res;
         }
