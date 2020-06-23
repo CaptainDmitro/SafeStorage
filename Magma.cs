@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace SafeStorage
 {
-    public class Magma
+    public class Magma : ICIpher
     {
+        private const int BLOCK_SIZE = 8;
+        private const int KEY_LENGTH = 32;
+
+        public int BlockSize
+        {
+            get { return BLOCK_SIZE; }
+        }
+
+        public int KeyLength
+        {
+            get { return KEY_LENGTH; }
+        }
+
         private uint[] subKeys;
 
         public void SetKey(byte[] key)

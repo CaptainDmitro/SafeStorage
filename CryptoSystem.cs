@@ -15,28 +15,28 @@ namespace SafeStorage
             string outputFile = inputFile + Settings.ENCRYPTION_EXTENSION;
             byte[] key = password;
 
-            Magma magma = new Magma();
-            magma.SetKey(key);
+            ICIpher cipher = new Magma();
+            cipher.SetKey(key);
 
             using (FileStream fs = new FileStream(inputFile, FileMode.Open))
             {
                 using (FileStream fw = new FileStream(outputFile, FileMode.Create))
                 {
-                    byte[] buf = new byte[8];
+                    byte[] buf = new byte[cipher.BlockSize];
                     long pos = 0;
 
-                    while (fs.Read(buf, 0, 8) == 8)
+                    while (fs.Read(buf, 0, cipher.BlockSize) == cipher.BlockSize)
                     {
-                        byte[] encrypted = magma.Encrypt(buf);
+                        byte[] encrypted = cipher.Encrypt(buf);
                         fw.Write(encrypted, 0, encrypted.Length);
                         pos = fs.Position;
                     }
 
-                    if (fs.Length % 8 != 0)
+                    if (fs.Length % cipher.BlockSize != 0)
                     {
-                        byte[] buf2 = new byte[8];
-                        Array.Copy(buf, buf2, fs.Length % 8);
-                        byte[] encrypted = magma.Encrypt(buf2);
+                        byte[] buf2 = new byte[cipher.BlockSize];
+                        Array.Copy(buf, buf2, fs.Length % cipher.BlockSize);
+                        byte[] encrypted = cipher.Encrypt(buf2);
                         fw.Write(encrypted, 0, encrypted.Length);
 
                     }
@@ -56,16 +56,16 @@ namespace SafeStorage
             {
                 using (FileStream fw = new FileStream(outputFile, FileMode.Create))
                 {
-                    byte[] buf = new byte[8];
+                    byte[] buf = new byte[magma.BlockSize];
 
-                    while (fs.Read(buf, 0, 8) > 0)
+                    while (fs.Read(buf, 0, magma.BlockSize) > 0)
                     {
                         byte[] encrypted = magma.Decrypt(buf);
 
                         if (fs.Position == fs.Length)
                         {
                             int zeros = encrypted.Count(e => e == 0);
-                            fw.Write(encrypted, 0, 8 - zeros);
+                            fw.Write(encrypted, 0, magma.BlockSize - zeros);
                         }
                         else
                         {

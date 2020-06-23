@@ -53,7 +53,6 @@ namespace SafeStorage
 
         private void Button_Sign_Up_Click(object sender, RoutedEventArgs e)
         {
-            //new RegistrationWindow().Show();
             if (TextBox_Username.Text.Length == 0)
             {
                 MessageBox.Show(Strings.LOGIN_IS_EMPTY, Strings.ERR_MSG);
